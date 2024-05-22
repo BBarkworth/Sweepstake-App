@@ -20,7 +20,7 @@ function potCreation() {
             const element = document.createElement('div');
             element.id = potTeams[index]
             element.innerHTML = `${potTeams[index]}<br>`;
-            element.style.height = '10%';
+            element.style.height = '9%';
             // columnIdentifier.innerHTML += `${potTeams[index]}<br>`;
             columnIdentifier.appendChild(element)
         }
