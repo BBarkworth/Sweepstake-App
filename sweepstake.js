@@ -8,27 +8,30 @@ const secondColumn = document.getElementById('2');
 const thirdColumn = document.getElementById('3');
 const lists = {};
 
-let teamsCopy = [...teams];
-let potDivider = teamsCopy.length / names.length;
-let count = 1
-while (teamsCopy.length > 0) {
-    let potTeams = teamsCopy.splice(0,8);
-    let countConversion = String(count)
-    let columnIdentifier = document.getElementById(countConversion)
-    for (let index = 0; index < potTeams.length; index++) {
-        const element = document.createElement('div');
-        element.id = potTeams[index]
-        element.innerHTML = `${potTeams[index]}<br>`;
-        element.style.height = '10%';
-        // columnIdentifier.innerHTML += `${potTeams[index]}<br>`;
-        columnIdentifier.appendChild(element)
+
+function potCreation() {
+    let teamsCopy = [...teams];
+    let count = 1
+    while (teamsCopy.length > 0) {
+        let potTeams = teamsCopy.splice(0,8);
+        let countConversion = String(count)
+        let columnIdentifier = document.getElementById(countConversion)
+        for (let index = 0; index < potTeams.length; index++) {
+            const element = document.createElement('div');
+            element.id = potTeams[index]
+            element.innerHTML = `${potTeams[index]}<br>`;
+            element.style.height = '10%';
+            // columnIdentifier.innerHTML += `${potTeams[index]}<br>`;
+            columnIdentifier.appendChild(element)
+        }
+        count += 1
     }
-    count += 1
 }
 
-for (let index = 0; index < names.length; index++) {
-    lists[names[index]] = [];
-    
+function listCreation() {
+    for (let index = 0; index < names.length; index++) {
+        lists[names[index]] = [];
+    }
 }
 
 function sleep(ms) {
@@ -73,7 +76,7 @@ async function process (teams, names) {
     }
     // potContainer.innerHTML = ""
     await sleep(2000);
-    let num = 0
+    // let num = 0
     container.innerHTML = ""
     drawButton.disabled = false;
     console.log(lists)
@@ -84,16 +87,33 @@ async function process (teams, names) {
     element.id = "4"
     element.className = "column"
     const columnList = potContainer.querySelectorAll('.column')
-    columnList.forEach(child => {
-        let listName = names[num]
-        console.log(typeof listName)
-        console.log(typeof lists.listName)
-        console.log(lists.listName)
-        console.log(lists[listName])
-        child.innerHTML = lists[listName];
-        // need to loop through and add to individual lines
-        num += 1;
-    });
+    for (let index = 0; index < columnList.length; index++) {
+        columnList[index].innerHTML = `${names[index]}<br>`
+        let listIterator = names[index]
+        columnList[index].className = names[index]
+        if (columnList[index].className == listIterator) {
+            for (let i = 0; i < lists[names[index]].length; i++) {
+                columnList[index].innerHTML += `${lists[listIterator][i]}<br>`
+            }
+        }
+        
+    }
+
+    // columnList.forEach(child => {
+    //     let listName = names[num]
+    //     console.log(typeof listName)
+    //     console.log(typeof lists.listName)
+    //     console.log(lists.listName)
+    //     console.log(lists[listName])
+    //     lists[listName].forEach(list => {
+    //         const element = document.createElement('div');
+    //         element.innerHTML = lists[listName];
+    //         child.appendChild(element);
+    //     })
+    //     // child.innerHTML = lists[listName];
+    //     // need to loop through teams in each list and add to individual lines
+    //     num += 1;
+    // });
     // loop through container and add teams for each name list to a column
 
     return completeList
@@ -103,6 +123,10 @@ drawButton.addEventListener("click", async () => {
     await process([...teams], [...names]); 
 });
 
+document.addEventListener('DOMContentLoaded', (event) => {
+    potCreation()
+    listCreation()
+});
 // selections.forEach(item => {
 //     fs.appendFile('output/sweepstake.txt', item + '\n', (err) => {
 //         if (err) {
