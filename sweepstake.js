@@ -49,7 +49,6 @@ async function process (teams, names) {
         let pot = teams.splice(potStart,8)
         // await sleep(3000);
         console.log(pot)
-        // potContainer.innerHTML = `${pot[0]}, ${pot[1]}, ${pot[2]}, ${pot[3]}`
         for (let index = 0; index < 8; index++) {
             let randomIndex = Math.floor(Math.random() * pot.length);
             let choice = pot[randomIndex];
@@ -60,28 +59,19 @@ async function process (teams, names) {
             let teamChosen = {[n]: choice};
             lists[n].push(choice);
             // await sleep(3000);
-            console.log(teamChosen)  
             completeList.push(teamChosen)
-            // container.innerHTML += `${n}: ${choice}<br>`
             container.innerHTML = `${n}: ${choice}`;
             let removeTeam = document.getElementById(choice);
-            // console.log(removeTeam)
             removeTeam.textContent = "";
-            // console.log(removeTeam)
             count += 1;
             if (count % names.length == 0) {
                 namesCopy = [...names];
             }
         }
     }
-    // potContainer.innerHTML = ""
     await sleep(2000);
-    // let num = 0
     container.innerHTML = ""
     drawButton.disabled = false;
-    console.log(lists)
-    console.log(lists.Ben)
-    console.log(typeof lists.Ben)
     const element = document.createElement('div');
     potContainer.appendChild(element)
     element.id = "4"
@@ -98,24 +88,6 @@ async function process (teams, names) {
         }
         
     }
-
-    // columnList.forEach(child => {
-    //     let listName = names[num]
-    //     console.log(typeof listName)
-    //     console.log(typeof lists.listName)
-    //     console.log(lists.listName)
-    //     console.log(lists[listName])
-    //     lists[listName].forEach(list => {
-    //         const element = document.createElement('div');
-    //         element.innerHTML = lists[listName];
-    //         child.appendChild(element);
-    //     })
-    //     // child.innerHTML = lists[listName];
-    //     // need to loop through teams in each list and add to individual lines
-    //     num += 1;
-    // });
-    // loop through container and add teams for each name list to a column
-
     return completeList
 }
 
