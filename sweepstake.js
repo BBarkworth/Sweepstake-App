@@ -63,6 +63,7 @@ const drawButton = document.querySelector(".draw");
 const container = document.querySelector(".container");
 const potContainer = document.querySelector(".row");
 const lists = {};
+let completeList = []
 
 function potCreation() {
   let teamsCopy = [...teams];
@@ -98,7 +99,6 @@ function sleep(ms) {
 
 async function process (teams, names) {
     drawButton.disabled = true;
-    let completeList = []
     let count = 0
     let potSize = 8
     while (teams.length > 0) {
@@ -106,8 +106,6 @@ async function process (teams, names) {
         let potStart = teams.length - potSize
         let pot = teams.splice(potStart,8)
         // await sleep(3000);
-        console.log(pot)
-        // potContainer.innerHTML = `${pot[0]}, ${pot[1]}, ${pot[2]}, ${pot[3]}`
         for (let index = 0; index < 8; index++) {
             let randomIndex = Math.floor(Math.random() * pot.length);
             let choice = pot[randomIndex];
@@ -123,9 +121,7 @@ async function process (teams, names) {
             // container.innerHTML += `${n}: ${choice}<br>`
             container.innerHTML = `${n}: ${choice}`;
             let removeTeam = document.getElementById(choice);
-            // console.log(removeTeam)
-            removeTeam.textContent = "";
-            // console.log(removeTeam)
+            removeTeam.remove();
             count += 1;
             if (count % names.length == 0) {
                 namesCopy = [...names];
@@ -134,7 +130,9 @@ async function process (teams, names) {
     }
     // potContainer.innerHTML = ""
     await sleep(2000);
-    // let num = 0
+}
+
+function restructurePage(fullTeamsList) {
     container.innerHTML = ""
     drawButton.disabled = false;
     console.log(lists)
@@ -144,44 +142,34 @@ async function process (teams, names) {
     potContainer.appendChild(element)
     element.id = "4"
     element.className = "column"
+    const newHeading = document.createElement('h2');
+    newHeading.className = "h2"
+    element.appendChild(newHeading);
     const columnList = potContainer.querySelectorAll('.column')
+    console.log(columnList)
     for (let index = 0; index < columnList.length; index++) {
-        columnList[index].innerHTML = `${names[index]}<br>`
+        const headings = document.getElementsByClassName('h2');
+        headings[index].textContent = `${names[index]}`;
         let listIterator = names[index]
-        columnList[index].className = names[index]
-        if (columnList[index].className == listIterator) {
+        console.log(columnList[index].textContent)
+        console.log(listIterator)
+        console.log(columnList[index].textContent.length)
+        if (columnList[index].textContent.trim() == listIterator) {
+            console.log("test")
             for (let i = 0; i < lists[names[index]].length; i++) {
                 columnList[index].innerHTML += `${lists[listIterator][i]}<br>`
             }
         }
-        
     }
-
-    // columnList.forEach(child => {
-    //     let listName = names[num]
-    //     console.log(typeof listName)
-    //     console.log(typeof lists.listName)
-    //     console.log(lists.listName)
-    //     console.log(lists[listName])
-    //     lists[listName].forEach(list => {
-    //         const element = document.createElement('div');
-    //         element.innerHTML = lists[listName];
-    //         child.appendChild(element);
-    //     })
-    //     // child.innerHTML = lists[listName];
-    //     // need to loop through teams in each list and add to individual lines
-    //     num += 1;
-    // });
-    // loop through container and add teams for each name list to a column
-
-    return completeList
+    return fullTeamsList;
 }
 
 drawButton.addEventListener("click", async () => {
-  await process([...teams], [...names]);
+    await process([...teams], [...names]); 
+    restructurePage(completeList)
 });
 
-document.addEventListener("DOMContentLoaded", (event) => {
-  potCreation();
-  listCreation();
+document.addEventListener('DOMContentLoaded', () => {
+    potCreation()
+    listCreation()
 });
