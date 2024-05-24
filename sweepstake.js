@@ -66,35 +66,41 @@ const lists = {};
 let completeList = []
 
 function potCreation() {
-  let teamsCopy = [...teams];
-  let count = 1;
-  while (teamsCopy.length > 0) {
-    let potTeams = teamsCopy.splice(0, 8);
-    let columnIdentifier = document.getElementById(count.toString());
+    let teamsCopy = [...teams];
+    let count = 1;
+    while (teamsCopy.length > 0) {
+        let potTeams = teamsCopy.splice(0, 8);
+        let columnIdentifier = document.getElementById(count.toString());
+        imageCreation(potTeams, columnIdentifier);
+        count += 1;
+    }
+}
+
+function imageCreation(potTeams, columnNum) {
     potTeams.forEach((team) => {
-      const element = document.createElement("div");
-      const img = document.createElement("img");
-      img.src = flags[team];
-      img.alt = `${team} Flag`;
-      img.className = "flag-image";
-      element.id = team;
-      element.innerHTML = `${team}<br>`;
-      element.appendChild(img);
-      element.style.height = "9%";
-      columnIdentifier.appendChild(element);
+        const element = document.createElement("div");
+        const img = document.createElement("img");
+        img.src = flags[team];
+        img.alt = `${team} Flag`;
+        img.className = "flag-image";
+        element.className = "team-name"
+        element.id = team;
+        element.innerHTML = `${team}<br>`;
+        // img.appendChild(element);
+        element.style.height = "2%";
+        columnNum.appendChild(img);
+        columnNum.appendChild(element);
     });
-    count += 1;
-  }
 }
 
 function listCreation() {
-  names.forEach((name) => {
-    lists[name] = [];
-  });
+    names.forEach((name) => {
+        lists[name] = [];
+    });
 }
 
 function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 async function process (teams, names) {
@@ -105,7 +111,7 @@ async function process (teams, names) {
         let namesCopy = [...names];
         let potStart = teams.length - potSize
         let pot = teams.splice(potStart,8)
-        // await sleep(3000);
+        await sleep(3000);
         for (let index = 0; index < 8; index++) {
             let randomIndex = Math.floor(Math.random() * pot.length);
             let choice = pot[randomIndex];
@@ -115,10 +121,8 @@ async function process (teams, names) {
             pot = pot.filter(p => p !== choice);
             let teamChosen = {[n]: choice};
             lists[n].push(choice);
-            // await sleep(3000);
-            console.log(teamChosen)  
+            await sleep(3000);
             completeList.push(teamChosen)
-            // container.innerHTML += `${n}: ${choice}<br>`
             container.innerHTML = `${n}: ${choice}`;
             let removeTeam = document.getElementById(choice);
             removeTeam.remove();
@@ -129,15 +133,12 @@ async function process (teams, names) {
         }
     }
     // potContainer.innerHTML = ""
-    await sleep(2000);
+    // await sleep(2000);
 }
 
 function restructurePage(fullTeamsList) {
     container.innerHTML = ""
     drawButton.disabled = false;
-    console.log(lists)
-    console.log(lists.Ben)
-    console.log(typeof lists.Ben)
     const element = document.createElement('div');
     potContainer.appendChild(element)
     element.id = "4"
@@ -146,19 +147,12 @@ function restructurePage(fullTeamsList) {
     newHeading.className = "h2"
     element.appendChild(newHeading);
     const columnList = potContainer.querySelectorAll('.column')
-    console.log(columnList)
     for (let index = 0; index < columnList.length; index++) {
         const headings = document.getElementsByClassName('h2');
         headings[index].textContent = `${names[index]}`;
         let listIterator = names[index]
-        console.log(columnList[index].textContent)
-        console.log(listIterator)
-        console.log(columnList[index].textContent.length)
         if (columnList[index].textContent.trim() == listIterator) {
-            console.log("test")
-            for (let i = 0; i < lists[names[index]].length; i++) {
-                columnList[index].innerHTML += `${lists[listIterator][i]}<br>`
-            }
+            imageCreation(lists[listIterator], columnList[index]);
         }
     }
     return fullTeamsList;
