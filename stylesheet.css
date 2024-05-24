@@ -75,12 +75,12 @@ h1 {
     text-align: center; /* Center-align the text */
 }
 
-.column div {
-    color: rgb(241, 244, 241); /* Change the color of paragraphs within the Pot containers */
+/* .column div {
+    color: rgb(241, 244, 241);
     text-align: left;
     margin-left: 8px;
     margin-bottom: 2px;
-}
+} */
 
 .sweepstake-image {
     display: block;
@@ -95,6 +95,15 @@ h1 {
     max-width: 30px;
     height: auto;
 }
+
+.team-name {
+    color: rgb(241, 244, 241);
+    text-align: right;
+    margin-left: 8px;
+    margin-bottom: 2px;
+    font-size: large;
+}
+
 
 /*POT CONTAINERS */
 
