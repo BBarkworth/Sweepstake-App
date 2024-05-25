@@ -85,13 +85,9 @@ function potCreation(potNumber) {
 function teamCreation(team) {
     const teamContainer = document.createElement("div");
     const element = document.createElement("div");
-    // const img = document.createElement("img");
     teamContainer.className = "team-container";
     teamContainer.id = team
     let imageElement = imageCreation(team);
-    // img.src = flags[team];
-    // img.alt = `${team} Flag`;
-    // img.className = "flag-image";
     element.className = "team-name"
     element.textContent = team;
     teamContainer.appendChild(imageElement);
@@ -142,7 +138,6 @@ async function process (teams, names, potSize) {
             img.remove();
             div.remove();
         }
-        // await sleep(2000);
     }
 }
 
