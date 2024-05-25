@@ -63,7 +63,6 @@ const drawButton = document.querySelector(".draw");
 const container = document.querySelector(".container");
 const potContainer = document.querySelector(".row");
 const lists = {};
-// let completeList = []
 
 function potCreation() {
     let teamsCopy = [...teams];
@@ -71,45 +70,23 @@ function potCreation() {
     let count = 1;
     teamsCopy.forEach((team) => {
         let columnIdentifier = document.getElementById(count.toString());
+        const container = document.createElement("div");
         const element = document.createElement("div");
         const img = document.createElement("img");
+        container.className = "team-container";
+        container.id = team
         img.src = flags[team];
         img.alt = `${team} Flag`;
         img.className = "flag-image";
         element.className = "team-name"
-        element.id = team;
-        element.innerHTML = `${team}<br>`;
-        // img.appendChild(element);
-        element.style.height = "2%";
-        columnIdentifier.appendChild(img);
-        columnIdentifier.appendChild(element);
+        element.textContent = team;
+        container.appendChild(img);
+        container.appendChild(element);
+        columnIdentifier.appendChild(container);
         if (teamCounter % 8 == 0) {
             count += 1
         }
         teamCounter += 1
-    });
-    // while (teamsCopy.length > 0) {
-    //     // let potTeams = teamsCopy.splice(0, 8);
-    //     // let columnIdentifier = document.getElementById(count.toString());
-    //     imageCreation(potTeams, columnIdentifier);
-    //     // count += 1;
-    // }
-}
-
-function imageCreation(potTeams, columnNum) {
-    potTeams.forEach((team) => {
-        const element = document.createElement("div");
-        const img = document.createElement("img");
-        img.src = flags[team];
-        img.alt = `${team} Flag`;
-        img.className = "flag-image";
-        element.className = "team-name"
-        element.id = team;
-        element.innerHTML = `${team}<br>`;
-        // img.appendChild(element);
-        element.style.height = "2%";
-        columnNum.appendChild(img);
-        columnNum.appendChild(element);
     });
 }
 
@@ -131,7 +108,7 @@ async function process (teams, names) {
         let namesCopy = [...names];
         let potStart = teams.length - potSize
         let pot = teams.splice(potStart,8);
-        // await sleep(3000);
+        await sleep(3000);
         for (let index = 0; index < 8; index++) {
             let randomIndex = Math.floor(Math.random() * pot.length);
             let choice = pot[randomIndex];
@@ -139,22 +116,17 @@ async function process (teams, names) {
             let n = namesCopy[randomI];
             namesCopy = namesCopy.filter(name => name !== n);
             pot = pot.filter(p => p !== choice);
-            // let teamChosen = {[n]: choice};
             lists[n].push(choice);
-            // await sleep(3000);
-            // completeList.push(teamChosen)
+            await sleep(3000);
             container.innerHTML = `${n}: ${choice}`;
             let removeTeam = document.getElementById(choice);
             removeTeam.remove();
-            // img needs to be removed as well - container could have team name as class name and then that could be targeted for removal
             count += 1;
             if (count % names.length == 0) {
                 namesCopy = [...names];
             }
         }
     }
-    // potContainer.innerHTML = ""
-    // await sleep(2000);
 }
 
 function restructurePage() {
@@ -168,7 +140,7 @@ function restructurePage() {
     newHeading.className = "h2"
     element.appendChild(newHeading);
     const columnList = potContainer.querySelectorAll('.column')
-    // refactor below to be a loop - then change imageCreation function for multi uses
+    // refactor below to be one loop - then change imageCreation function for multi uses
     for (let index = 0; index < columnList.length; index++) {
         const headings = document.getElementsByClassName('h2');
         headings[index].textContent = `${names[index]}`;
@@ -177,6 +149,24 @@ function restructurePage() {
             imageCreation(lists[listIterator], columnList[index]);
         }
     }
+}
+
+function imageCreation(potTeams, columnNum) {
+    potTeams.forEach((team) => {
+        const container = document.createElement("div");
+        const element = document.createElement("div");
+        const img = document.createElement("img");
+        container.className = "team-container";
+        container.id = team
+        img.src = flags[team];
+        img.alt = `${team} Flag`;
+        img.className = "flag-image";
+        element.className = "team-name"
+        element.textContent = team;
+        container.appendChild(img);
+        container.appendChild(element);
+        columnNum.appendChild(container);
+    });
 }
 
 drawButton.addEventListener('click', async () => {
