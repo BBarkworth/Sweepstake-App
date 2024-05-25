@@ -86,17 +86,22 @@ function potCreation(potNumber) {
 function teamCreation(team) {
     const teamContainer = document.createElement("div");
     const element = document.createElement("div");
-    const img = document.createElement("img");
     teamContainer.className = "team-container";
     teamContainer.id = team
+    let imageElement = imageCreation(team);
+    element.className = "team-name"
+    element.textContent = team;
+    teamContainer.appendChild(imageElement);
+    teamContainer.appendChild(element);
+    return teamContainer;
+}
+
+function imageCreation(team) {
+    const img = document.createElement("img");
     img.src = flags[team];
     img.alt = `${team} Flag`;
     img.className = "flag-image";
-    element.className = "team-name"
-    element.textContent = team;
-    teamContainer.appendChild(img);
-    teamContainer.appendChild(element);
-    return teamContainer;
+    return img;
 }
 
 function sleep(ms) {
@@ -106,6 +111,7 @@ function sleep(ms) {
 async function process (teams, names, potSize) {
     drawButton.disabled = true;
     let loopCounter = 0;
+    await sleep(3000);
     while (teams.length > 0) {
         let namesCopy = [...names];
         let potStart = teams.length - potSize
@@ -118,21 +124,26 @@ async function process (teams, names, potSize) {
             namesCopy = namesCopy.filter(name => name !== nameChoice);
             pot = pot.filter(p => p !== teamChoice);
             lists[nameChoice].push(teamChoice);
-            await sleep(5000);
-            container.innerHTML = `${teamChoice}: ${nameChoice}`;
+            let img = imageCreation(teamChoice)
+            container.appendChild(img)
+            let div = document.createElement("div");
+            div.innerHTML = `${teamChoice}: ${nameChoice}`;
+            container.appendChild(div)
             let removeTeam = document.getElementById(teamChoice);
             removeTeam.remove();
             loopCounter += 1;
             if (loopCounter % names.length == 0) {
                 namesCopy = [...names];
             }
+            await sleep(5000);
+            img.remove();
+            div.remove();
         }
-        await sleep(3000);
     }
 }
 
 function restructurePage() {
-    container.innerHTML = ""
+    container.remove();
     drawButton.disabled = false;
     const fourthColumn = document.createElement('div');
     potContainer.appendChild(fourthColumn)
@@ -146,10 +157,10 @@ function restructurePage() {
         headings[index].textContent = `${names[index]}`;
         columnList[index].id = names[index]
     }
-    imageCreation(teams);
+    nameAppender(teams);
 }
 
-function imageCreation(potTeams) {
+function nameAppender(potTeams) {
     potTeams.forEach((team) => {
         let listName = Object.keys(lists).filter(listName => lists[listName].includes(team));
         const nameColumn = document.getElementById(listName[0]);
