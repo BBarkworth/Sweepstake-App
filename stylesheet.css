@@ -92,7 +92,7 @@ h1 {
     margin: 1% 0 0 0;
     padding: 4%;
     margin: 40px;
-    min-width: 80px;
+    min-width: 100px;
     min-height: 40px;
 }
 
@@ -105,7 +105,20 @@ h1 {
     margin: 1% 0 0 0;
     padding: 4%;
     margin: 40px;
-    min-width: 80px;
+    min-width: 100px;
+    min-height: 40px;
+} 
+
+.export {
+    background-color: #ebf1fd;
+    border: 10px #dedfe28c;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 1% 0 0 0;
+    padding: 4%;
+    margin: 40px;
+    min-width: 100px;
     min-height: 40px;
 } 
 
