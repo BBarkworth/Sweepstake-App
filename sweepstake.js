@@ -61,6 +61,7 @@ flags[country] = `flags/${code}.svg`;
 const names = ["Ben", "Bridgette", "Lily", "Robert"];
 const drawButton = document.querySelector(".draw");
 const refreshButton = document.querySelector(".refresh");
+const exportButton = document.querySelector(".export");
 const container = document.querySelector(".container");
 const potContainer = document.querySelector(".row");
 const lists = {};
@@ -111,7 +112,7 @@ function sleep(ms) {
 async function process (teams, names, potSize) {
     drawButton.disabled = true;
     let loopCounter = 0;
-    await sleep(3000);
+    // await sleep(3000);
     while (teams.length > 0) {
         let namesCopy = [...names];
         let potStart = teams.length - potSize
@@ -135,7 +136,7 @@ async function process (teams, names, potSize) {
             if (loopCounter % names.length == 0) {
                 namesCopy = [...names];
             }
-            await sleep(5000);
+            // await sleep(5000);
             img.remove();
             div.remove();
         }
@@ -187,3 +188,19 @@ function refreshPage() {
 
 refreshButton.addEventListener("click", refreshPage);
 
+
+function exportResults() {
+  let resultText = "";
+  for (const name in lists) {
+    resultText += `${name}: ${lists[name].join(", ")}\n`;
+  }
+  const blob = new Blob([resultText], { type: "text/plain" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "euro_2024_sweepstake_results.txt";
+  a.click();
+}
+
+exportButton.addEventListener("click", () => {
+  exportResults();
+});
