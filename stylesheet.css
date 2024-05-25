@@ -59,6 +59,7 @@ h1 {
     justify-content: space-between; /* Optional: space out the columns */
     flex-wrap: wrap; /* Allow wrapping if necessary */
     gap: 80px;
+    min-height: 500px;
 }
 
 .column {
