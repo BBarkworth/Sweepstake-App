@@ -6,18 +6,38 @@ body {
     background-color: #153cdad9;
 }
 
-.sweepstake-image {
+.background-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.background-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('euro_2024_logo_uefa.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.08; /* 30% opacity */
+  z-index: -1; 
+}
+
+/* .sweepstake-image {
     display: block;
     margin: 0 auto 20px;
     max-width: 200px;
     height: auto;
-}
+} */
 
 h1 {
     color: rgb(255, 255, 255);
     font-family: 'Roboto', sans-serif;
-    font-size: 2.8em; /* Adjust font size as needed */
-    font-weight: bold; /* Make the font bold */
+    font-size: 4em; /* Adjust font size */
+    font-weight: bold;
     margin-bottom: 0px;
 }
 
@@ -34,7 +54,7 @@ h1 {
     width: 575px;
     height: 100px;
     border: 5px solid #ebf1fd83;
-    color: black;
+    color: rgb(255, 255, 255);;
     text-align: center;
     font-size: xx-large;
     display: flex;
@@ -42,15 +62,52 @@ h1 {
     justify-content: center;
 }
 
-.draw {
-    background-color: #ebf1fd;
-    border: 10px #ebf1fd83;;
-    border-radius: 8px;
-    margin: 1% 0 0 0;
-    padding: 1.5%;
-    margin-bottom: 10px;
-   /* box-shadow: 0 2.5px 2.5px rgba(37, 37, 37, 0.95);*/
+.button-container {
+    display: flex;
+    gap: 0px; /* Adjust the gap as needed */
+    justify-content: space-evenly; /* Center the buttons horizontally */
+    margin-top: 0px; /* Add some top margin if needed */
 }
+
+/* .button-container button {
+    background-color: #ebf1fd;
+    border: 10px #ebf1fd83;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 1% 0 0 0;
+    padding: 4%;
+    margin-bottom: 10px;
+    margin: 40px;
+    min-width: 80px;
+} */
+
+
+.draw {
+    background-color: #FCD60C;
+    border: 10px #ebf1fd83;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 1% 0 0 0;
+    padding: 4%;
+    margin: 40px;
+    min-width: 80px;
+    min-height: 40px;
+}
+
+.refresh {
+    background-color: #ebf1fd;
+    border: 10px #ebf1fd83;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 1% 0 0 0;
+    padding: 4%;
+    margin: 40px;
+    min-width: 80px;
+    min-height: 40px;
+} 
 
 /*POT CONTAINERS */
 
@@ -79,14 +136,8 @@ h1 {
     color: #FCD60C;
     border-radius: 5px 5px 0 0;
     text-align: center;
+    font-size: 30px;
 }
-
-/* .column div {
-    color: rgb(241, 244, 241);
-    text-align: left;
-    margin-left: 8px;
-    margin-bottom: 2px;
-} */
 
 
 .flag-image {
@@ -108,6 +159,4 @@ h1 {
   align-items: center; /* Align children vertically */
 }
 
-
-/*POT CONTAINERS */
 

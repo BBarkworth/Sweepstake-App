@@ -60,6 +60,7 @@ flags[country] = `flags/${code}.svg`;
 
 const names = ["Ben", "Bridgette", "Lily", "Robert"];
 const drawButton = document.querySelector(".draw");
+const refreshButton = document.querySelector(".refresh");
 const container = document.querySelector(".container");
 const potContainer = document.querySelector(".row");
 const lists = {};
@@ -118,7 +119,7 @@ async function process (teams, names, potSize) {
             pot = pot.filter(p => p !== teamChoice);
             lists[nameChoice].push(teamChoice);
             await sleep(5000);
-            container.innerHTML = `${nameChoice}: ${teamChoice}`;
+            container.innerHTML = `${teamChoice}: ${nameChoice}`;
             let removeTeam = document.getElementById(teamChoice);
             removeTeam.remove();
             loopCounter += 1;
@@ -162,9 +163,16 @@ drawButton.addEventListener('click', async () => {
     restructurePage()
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    potCreation(potNumber)
-    names.forEach((name) => {
-        lists[name] = [];
-    });
+document.addEventListener("DOMContentLoaded", () => {
+  potCreation(potNumber);
+  names.forEach((name) => {
+    lists[name] = [];
+  });
 });
+
+function refreshPage() {
+    window.location.reload();
+}
+
+refreshButton.addEventListener("click", refreshPage);
+
