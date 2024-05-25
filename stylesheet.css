@@ -6,6 +6,13 @@ body {
     background-color: #153cdad9;
 }
 
+.sweepstake-image {
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 200px;
+    height: auto;
+}
+
 h1 {
     color: rgb(255, 255, 255);
     font-family: 'Roboto', sans-serif;
@@ -29,11 +36,10 @@ h1 {
     border: 5px solid #ebf1fd83;
     color: black;
     text-align: center;
-    font-size:xx-large;
+    font-size: xx-large;
     display: flex;
     align-items: center;
     justify-content: center;
-
 }
 
 .draw {
@@ -56,23 +62,23 @@ h1 {
 }
 
 .column {
-    border: 2px solid  #ebf1fd83;; /* Adjust the border width and color as needed */
-    padding: 10px; /* Padding inside the border */
-    margin: 10px; /* Space between columns */
-    border-radius: 5px; /* Rounded corners */
-    flex: 1; /* Allow columns to grow and fill the space */
-    min-width: 250px; /* Minimum width to ensure readability */
-    max-width: 30%; /* Optional: limit the width of each column */
-    box-sizing: border-box; /* Include border and padding in the element's total width and height */
+    border: 2px solid #ebf1fd83;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    flex: 1;
+    min-width: 250px;
+    max-width: 30%;
+    box-sizing: border-box;
 }
 
 .column h2 {
-    background-color: #012a93b1; /* Background color of the header */
-    padding: 10px; /* Padding inside the header */
-    margin: -10px -10px 10px -10px; /* Negative margin to offset the padding and align the header with the column border */
-    color: #FCD60C; /* Color of the header text */
-    border-radius: 5px 5px 0 0; /* Rounded corners at the top */
-    text-align: center; /* Center-align the text */
+    background-color: #012a93b1;
+    padding: 10px;
+    margin: -10px -10px 10px -10px;
+    color: #FCD60C;
+    border-radius: 5px 5px 0 0;
+    text-align: center;
 }
 
 /* .column div {
@@ -82,26 +88,24 @@ h1 {
     margin-bottom: 2px;
 } */
 
-.sweepstake-image {
-    display: block;
-    margin: 0 auto 20px;
-    max-width: 200px; /* Adjust the max-width to make the image smaller */
-    height: auto;
-}
 
 .flag-image {
-    display: block;
-    margin: 0px auto;
+    margin: 10px;
     max-width: 30px;
     height: auto;
 }
 
 .team-name {
+    /* display: flex; */
     color: rgb(241, 244, 241);
-    text-align: right;
     margin-left: 8px;
-    margin-bottom: 2px;
-    font-size: large;
+    margin-bottom: 3px;
+    /* text-align: right; */
+}
+
+.team-container {
+  display: flex; /* Use flexbox to arrange children horizontally */
+  align-items: center; /* Align children vertically */
 }
 
 
