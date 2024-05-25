@@ -63,118 +63,108 @@ const drawButton = document.querySelector(".draw");
 const container = document.querySelector(".container");
 const potContainer = document.querySelector(".row");
 const lists = {};
+const numberOfTeams = teams.length / names.length;
+const columnList = potContainer.querySelectorAll('.column')
+const potNumber = teams.length / columnList.length
 
-function potCreation() {
+function potCreation(potNumber) {
     let teamsCopy = [...teams];
     let teamCounter = 1
     let count = 1;
     teamsCopy.forEach((team) => {
         let columnIdentifier = document.getElementById(count.toString());
-        const container = document.createElement("div");
-        const element = document.createElement("div");
-        const img = document.createElement("img");
-        container.className = "team-container";
-        container.id = team
-        img.src = flags[team];
-        img.alt = `${team} Flag`;
-        img.className = "flag-image";
-        element.className = "team-name"
-        element.textContent = team;
-        container.appendChild(img);
-        container.appendChild(element);
-        columnIdentifier.appendChild(container);
-        if (teamCounter % 8 == 0) {
+        let teamContainer = teamCreation(team);
+        columnIdentifier.appendChild(teamContainer);
+        if (teamCounter % potNumber == 0) {
             count += 1
         }
         teamCounter += 1
     });
 }
 
-function listCreation() {
-    names.forEach((name) => {
-        lists[name] = [];
-    });
+function teamCreation(team) {
+    const teamContainer = document.createElement("div");
+    const element = document.createElement("div");
+    const img = document.createElement("img");
+    teamContainer.className = "team-container";
+    teamContainer.id = team
+    img.src = flags[team];
+    img.alt = `${team} Flag`;
+    img.className = "flag-image";
+    element.className = "team-name"
+    element.textContent = team;
+    teamContainer.appendChild(img);
+    teamContainer.appendChild(element);
+    return teamContainer;
 }
 
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function process (teams, names) {
+async function process (teams, names, potSize) {
     drawButton.disabled = true;
-    let count = 0;
-    let potSize = 8;
+    let loopCounter = 0;
     while (teams.length > 0) {
         let namesCopy = [...names];
         let potStart = teams.length - potSize
         let pot = teams.splice(potStart,8);
-        await sleep(3000);
         for (let index = 0; index < 8; index++) {
-            let randomIndex = Math.floor(Math.random() * pot.length);
-            let choice = pot[randomIndex];
-            let randomI = Math.floor(Math.random() * namesCopy.length);
-            let n = namesCopy[randomI];
-            namesCopy = namesCopy.filter(name => name !== n);
-            pot = pot.filter(p => p !== choice);
-            lists[n].push(choice);
-            await sleep(3000);
-            container.innerHTML = `${n}: ${choice}`;
-            let removeTeam = document.getElementById(choice);
+            let teamRandomIndex = Math.floor(Math.random() * pot.length);
+            let teamChoice = pot[teamRandomIndex];
+            let nameRandomIndex = Math.floor(Math.random() * namesCopy.length);
+            let nameChoice = namesCopy[nameRandomIndex];
+            namesCopy = namesCopy.filter(name => name !== nameChoice);
+            pot = pot.filter(p => p !== teamChoice);
+            lists[nameChoice].push(teamChoice);
+            await sleep(5000);
+            container.innerHTML = `${nameChoice}: ${teamChoice}`;
+            let removeTeam = document.getElementById(teamChoice);
             removeTeam.remove();
-            count += 1;
-            if (count % names.length == 0) {
+            loopCounter += 1;
+            if (loopCounter % names.length == 0) {
                 namesCopy = [...names];
             }
         }
+        await sleep(3000);
     }
 }
 
 function restructurePage() {
     container.innerHTML = ""
     drawButton.disabled = false;
-    const element = document.createElement('div');
-    potContainer.appendChild(element)
-    element.id = "4"
-    element.className = "column"
+    const fourthColumn = document.createElement('div');
+    potContainer.appendChild(fourthColumn)
+    fourthColumn.className = "column"
+    const columnList = potContainer.querySelectorAll('.column')
     const newHeading = document.createElement('h2');
     newHeading.className = "h2"
-    element.appendChild(newHeading);
-    const columnList = potContainer.querySelectorAll('.column')
-    // refactor below to be one loop - then change imageCreation function for multi uses
+    fourthColumn.appendChild(newHeading);
     for (let index = 0; index < columnList.length; index++) {
         const headings = document.getElementsByClassName('h2');
         headings[index].textContent = `${names[index]}`;
-        let listIterator = names[index]
-        if (columnList[index].textContent.trim() == listIterator) {
-            imageCreation(lists[listIterator], columnList[index]);
-        }
+        columnList[index].id = names[index]
     }
+    imageCreation(teams);
 }
 
-function imageCreation(potTeams, columnNum) {
+function imageCreation(potTeams) {
     potTeams.forEach((team) => {
-        const container = document.createElement("div");
-        const element = document.createElement("div");
-        const img = document.createElement("img");
-        container.className = "team-container";
-        container.id = team
-        img.src = flags[team];
-        img.alt = `${team} Flag`;
-        img.className = "flag-image";
-        element.className = "team-name"
-        element.textContent = team;
-        container.appendChild(img);
-        container.appendChild(element);
-        columnNum.appendChild(container);
+        let listName = Object.keys(lists).filter(listName => lists[listName].includes(team));
+        const nameColumn = document.getElementById(listName[0]);
+        let container = teamCreation(team)
+        nameColumn.appendChild(container);
     });
 }
 
 drawButton.addEventListener('click', async () => {
-    await process([...teams], [...names]); 
+    await process([...teams], [...names], potNumber); 
     restructurePage()
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    potCreation()
-    listCreation()
+    potCreation(potNumber)
+    names.forEach((name) => {
+        lists[name] = [];
+    });
 });
