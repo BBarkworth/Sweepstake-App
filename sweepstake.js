@@ -60,6 +60,7 @@ flags[country] = `flags/${code}.svg`;
 
 const names = ["Ben", "Bridgette", "Lily", "Robert"];
 const drawButton = document.querySelector(".draw");
+const refreshButton = document.querySelector(".refresh");
 const container = document.querySelector(".container");
 const potContainer = document.querySelector(".row");
 const lists = {};
@@ -173,9 +174,16 @@ drawButton.addEventListener('click', async () => {
     restructurePage()
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    potCreation(potNumber)
-    names.forEach((name) => {
-        lists[name] = [];
-    });
+document.addEventListener("DOMContentLoaded", () => {
+  potCreation(potNumber);
+  names.forEach((name) => {
+    lists[name] = [];
+  });
 });
+
+function refreshPage() {
+    window.location.reload();
+}
+
+refreshButton.addEventListener("click", refreshPage);
+
