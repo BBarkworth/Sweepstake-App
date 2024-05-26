@@ -137,7 +137,7 @@ async function process (teams, names, potSize) {
             if (loopCounter % names.length == 0) {
                 namesCopy = [...names];
             }
-            await sleep(5000);
+            await sleep(7000);
             img.remove();
             div.remove();
         }
