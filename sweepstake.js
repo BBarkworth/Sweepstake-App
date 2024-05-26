@@ -169,6 +169,7 @@ function restructurePage() {
     }
     potContainer.style.minHeight = '350px'
     nameAppender(teams);
+    exportButton.disabled = false;
 }
 
 function nameAppender(potTeams) {
@@ -180,36 +181,36 @@ function nameAppender(potTeams) {
     });
 }
 
+function refreshPage() {
+    window.location.reload();
+}
+
+function exportResults() {
+    let resultText = "";
+    for (const name in lists) {
+      resultText += `${name}: ${lists[name].join(", ")}\n`;
+    }
+    const blob = new Blob([resultText], { type: "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "euro_2024_sweepstake_results.txt";
+    a.click();
+}
+
 drawButton.addEventListener('click', async () => {
     await process([...teams], [...largerList], potNumber); 
     restructurePage()
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  potCreation(potNumber);
-  names.forEach((name) => {
+    exportButton.disabled = true;
+    potCreation(potNumber);
+    names.forEach((name) => {
     lists[name] = [];
   });
 });
 
-function refreshPage() {
-    window.location.reload();
-}
-
 refreshButton.addEventListener("click", refreshPage);
-
-
-function exportResults() {
-  let resultText = "";
-  for (const name in lists) {
-    resultText += `${name}: ${lists[name].join(", ")}\n`;
-  }
-  const blob = new Blob([resultText], { type: "text/plain" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "euro_2024_sweepstake_results.txt";
-  a.click();
-}
 
 exportButton.addEventListener("click", () => {
   exportResults();
