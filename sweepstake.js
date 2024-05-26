@@ -113,7 +113,7 @@ function sleep(ms) {
 async function process (teams, names, potSize) {
     drawButton.disabled = true;
     let loopCounter = 0;
-    await sleep(3000);
+    await sleep(7000);
     while (teams.length > 0) {
         let namesCopy = [...names];
         let potStart = teams.length - potSize
@@ -154,7 +154,6 @@ function removeOneOccurrence(array, value) {
 
 function restructurePage() {
     container.remove();
-    drawButton.disabled = false;
     const fourthColumn = document.createElement('div');
     potContainer.appendChild(fourthColumn)
     fourthColumn.className = "column"
