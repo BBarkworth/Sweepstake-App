@@ -112,7 +112,7 @@ function sleep(ms) {
 async function process (teams, names, potSize) {
     drawButton.disabled = true;
     let loopCounter = 0;
-    // await sleep(3000);
+    await sleep(3000);
     while (teams.length > 0) {
         let namesCopy = [...names];
         let potStart = teams.length - potSize
@@ -136,7 +136,7 @@ async function process (teams, names, potSize) {
             if (loopCounter % names.length == 0) {
                 namesCopy = [...names];
             }
-            // await sleep(5000);
+            await sleep(5000);
             img.remove();
             div.remove();
         }
