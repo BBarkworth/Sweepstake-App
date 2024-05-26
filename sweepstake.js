@@ -59,6 +59,7 @@ flags[country] = `flags/${code}.svg`;
 }
 
 const names = ["Ben", "Bridgette", "Lily", "Robert"];
+const largerList = Array(2).fill(names).flatMap(x => x);
 const drawButton = document.querySelector(".draw");
 const refreshButton = document.querySelector(".refresh");
 const exportButton = document.querySelector(".export");
@@ -122,7 +123,7 @@ async function process (teams, names, potSize) {
             let teamChoice = pot[teamRandomIndex];
             let nameRandomIndex = Math.floor(Math.random() * namesCopy.length);
             let nameChoice = namesCopy[nameRandomIndex];
-            namesCopy = namesCopy.filter(name => name !== nameChoice);
+            namesCopy = removeOneOccurrence(namesCopy, nameChoice);
             pot = pot.filter(p => p !== teamChoice);
             lists[nameChoice].push(teamChoice);
             let img = imageCreation(teamChoice)
@@ -143,6 +144,14 @@ async function process (teams, names, potSize) {
     }
 }
 
+function removeOneOccurrence(array, value) {
+    const index = array.indexOf(value);
+    if (index !== -1) {
+        array.splice(index, 1);
+    }
+    return array;
+}
+
 function restructurePage() {
     container.remove();
     drawButton.disabled = false;
@@ -158,7 +167,9 @@ function restructurePage() {
         headings[index].textContent = `${names[index]}`;
         columnList[index].id = names[index]
     }
+    potContainer.style.minHeight = '350px'
     nameAppender(teams);
+    exportButton.disabled = false;
 }
 
 function nameAppender(potTeams) {
@@ -170,36 +181,36 @@ function nameAppender(potTeams) {
     });
 }
 
-drawButton.addEventListener('click', async () => {
-    await process([...teams], [...names], potNumber); 
-    restructurePage()
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  potCreation(potNumber);
-  names.forEach((name) => {
-    lists[name] = [];
-  });
-});
-
 function refreshPage() {
     window.location.reload();
 }
 
-refreshButton.addEventListener("click", refreshPage);
-
-
 function exportResults() {
-  let resultText = "";
-  for (const name in lists) {
-    resultText += `${name}: ${lists[name].join(", ")}\n`;
-  }
-  const blob = new Blob([resultText], { type: "text/plain" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "euro_2024_sweepstake_results.txt";
-  a.click();
+    let resultText = "";
+    for (const name in lists) {
+      resultText += `${name}: ${lists[name].join(", ")}\n`;
+    }
+    const blob = new Blob([resultText], { type: "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "euro_2024_sweepstake_results.txt";
+    a.click();
 }
+
+drawButton.addEventListener('click', async () => {
+    await process([...teams], [...largerList], potNumber); 
+    restructurePage()
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    exportButton.disabled = true;
+    potCreation(potNumber);
+    names.forEach((name) => {
+    lists[name] = [];
+  });
+});
+
+refreshButton.addEventListener("click", refreshPage);
 
 exportButton.addEventListener("click", () => {
   exportResults();
