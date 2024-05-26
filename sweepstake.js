@@ -59,6 +59,7 @@ flags[country] = `flags/${code}.svg`;
 }
 
 const names = ["Ben", "Bridgette", "Lily", "Robert"];
+const largerList = Array(2).fill(names).flatMap(x => x);
 const drawButton = document.querySelector(".draw");
 const refreshButton = document.querySelector(".refresh");
 const exportButton = document.querySelector(".export");
@@ -122,7 +123,7 @@ async function process (teams, names, potSize) {
             let teamChoice = pot[teamRandomIndex];
             let nameRandomIndex = Math.floor(Math.random() * namesCopy.length);
             let nameChoice = namesCopy[nameRandomIndex];
-            namesCopy = namesCopy.filter(name => name !== nameChoice);
+            namesCopy = removeOneOccurrence(namesCopy, nameChoice);
             pot = pot.filter(p => p !== teamChoice);
             lists[nameChoice].push(teamChoice);
             let img = imageCreation(teamChoice)
@@ -143,6 +144,14 @@ async function process (teams, names, potSize) {
     }
 }
 
+function removeOneOccurrence(array, value) {
+    const index = array.indexOf(value);
+    if (index !== -1) {
+        array.splice(index, 1);
+    }
+    return array;
+}
+
 function restructurePage() {
     container.remove();
     drawButton.disabled = false;
@@ -158,6 +167,7 @@ function restructurePage() {
         headings[index].textContent = `${names[index]}`;
         columnList[index].id = names[index]
     }
+    potContainer.style.minHeight = '350px'
     nameAppender(teams);
 }
 
@@ -171,7 +181,7 @@ function nameAppender(potTeams) {
 }
 
 drawButton.addEventListener('click', async () => {
-    await process([...teams], [...names], potNumber); 
+    await process([...teams], [...largerList], potNumber); 
     restructurePage()
 });
 
