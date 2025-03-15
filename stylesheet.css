@@ -19,7 +19,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('euro_2024_logo_uefa.jpg');
+  /* background-image: url('euro_2024_logo_uefa.jpg'); */
   background-size: cover;
   background-position: center;
   opacity: 0.08; /* 30% opacity */

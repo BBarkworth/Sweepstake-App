@@ -1,107 +1,90 @@
-const teams = [
-    "England",
-    "France",
-    "Germany",
-    "Portugal",
-    "Spain",
-    "Italy",
-    "Netherlands",
-    "Belgium",
-    "Croatia",
-    "Denmark",
-    "Turkey",
-    "Hungary",
-    "Switzerland",
-    "Austria",
-    "Czech Republic",
-    "Poland",
-    "Scotland",
-    "Serbia",
-    "Ukraine",
-    "Romania",
-    "Slovenia",
-    "Albania",
-    "Georgia",
-    "Slovakia",
-  ];
-  
-  const countryCodes = {
-    England: "EN",
+const drivers = [
+    {name: "Pierre Gasly", country: "France", team: "Alpine"}, 
+    {name: "Jack Doohan", country: "Australia", team: "Alpine"},
+    {name: "Lance Stroll", country: "Canada", team: "Aston Martin"},
+    {name: "Fernando Alonso", country: "Spain", team: "Aston Martin"},
+    {name: "Charles Leclerc", country: "Monaco", team: "Ferrari"},
+    {name: "Lewis Hamilton", country: "United Kingdom", team: "Ferrari"},
+    {name: "Esteban Ocon", country: "France", team: "Haas"},
+    {name: "Oliver Bearman", country: "United Kingdom", team: "Haas"},
+    {name: "Nico Hulkenberg", country: "Germany", team: "Sauber"},
+    {name: "Gabriel Bortoleto", country: "Brazil", team: "Sauber"},
+    {name: "Oscar Piastri", country: "Australia", team: "Mclaren"},
+    {name: "Lando Norris", country: "United Kingdom", team: "Mclaren"},
+    {name: "George Russell", country: "United Kingdom", team: "Mercedes"},
+    {name: "Andrea Antonelli", country: "Italy", team: "Mercedes"},
+    {name: "Isack Hadjar", country: "France", team: "Racing Bulls"},
+    {name: "Yuki Tsunoda", country: "Japan", team: "Racing Bulls"},
+    {name: "Max Verstappen", country: "Netherlands", team: "Red Bull"},
+    {name: "Liam Lawson", country: "New Zealand", team: "Red Bull"},
+    {name: "Alex Albon", country: "Thailand", team: "Williams"},
+    {name: "Carlos Sainz", country: "Spain", team: "Williams"} 
+];
+
+const countryCodes = {
     France: "FR",
     Germany: "DE",
-    Portugal: "PT",
     Spain: "ES",
     Italy: "IT",
     Netherlands: "NL",
-    Belgium: "BE",
-    Croatia: "HR",
-    Denmark: "DK",
-    Turkey: "TR",
-    Hungary: "HU",
-    Switzerland: "CH",
-    Austria: "AT",
-    "Czech Republic": "CZ",
-    Poland: "PL",
-    Scotland: "SCT",
-    Serbia: "RS",
-    Ukraine: "UA",
-    Romania: "RO",
-    Slovenia: "SI",
-    Albania: "AL",
-    Georgia: "GE",
-    Slovakia: "SK",
-  };
+    Australia: "AU",
+    Canada: "CA",
+    Brazil: "BR",
+    Japan: "JP",
+    "New Zealand": "NZ",
+    Thailand: "TH",
+    Monaco: "MC"
+};
 
 const flags = {};
 for (const country in countryCodes) {
-const code = countryCodes[country];
-flags[country] = `flags/${code}.svg`;
+    const code = countryCodes[country];
+    flags[country] = `flags/${code}.svg`;
 }
 
 const names = ["Ben", "Bridgette", "Lily", "Robert"];
-const largerList = Array(2).fill(names).flatMap(x => x);
 const drawButton = document.querySelector(".draw");
 const refreshButton = document.querySelector(".refresh");
 const exportButton = document.querySelector(".export");
 const container = document.querySelector(".container");
 const potContainer = document.querySelector(".row");
 const lists = {};
-const numberOfTeams = teams.length / names.length;
-const columnList = potContainer.querySelectorAll('.column')
-const potNumber = teams.length / columnList.length
+const columnList = potContainer.querySelectorAll('.column');
+const potNumber = drivers.length / columnList.length;
 
-function potCreation(potNumber) {
-    let teamsCopy = [...teams];
-    let teamCounter = 1
+function potCreation() {
+    let driversCopy = [...drivers]
+    let driverCounter = 1
     let count = 1;
-    teamsCopy.forEach((team) => {
+    driversCopy.forEach((driver) => {
         let columnIdentifier = document.getElementById(count.toString());
-        let teamContainer = teamCreation(team);
-        columnIdentifier.appendChild(teamContainer);
-        if (teamCounter % potNumber == 0) {
+        let driverContainer = driverCreation(driver);
+        columnIdentifier.appendChild(driverContainer);
+        if (driverCounter % potNumber == 0) {
             count += 1
         }
-        teamCounter += 1
+        driverCounter += 1
     });
 }
 
-function teamCreation(team) {
-    const teamContainer = document.createElement("div");
+function driverCreation(driver) {
+    const driverContainer = document.createElement("div");
     const element = document.createElement("div");
-    teamContainer.className = "team-container";
-    teamContainer.id = team
-    let imageElement = imageCreation(team);
-    element.className = "team-name"
-    element.textContent = team;
-    teamContainer.appendChild(imageElement);
-    teamContainer.appendChild(element);
-    return teamContainer;
+    driverContainer.className = "driver-container";
+    driverContainer.id = driver.name
+    let imageElement = imageCreation(driver);
+    element.className = "driver-name"
+    element.textContent = driver.name + ", " + driver.team;
+    driverContainer.appendChild(imageElement);
+    driverContainer.appendChild(element);
+    return driverContainer;
 }
 
-function imageCreation(team) {
+function imageCreation(driver) {
     const img = document.createElement("img");
-    img.src = flags[team];
-    img.alt = `${team} Flag`;
+    const flag = driver.country;
+    img.src = flags[flag];
+    img.alt = `${flag} Flag`;
     img.className = "flag-image";
     return img;
 }
@@ -110,37 +93,34 @@ function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function process (teams, names, potSize) {
+async function process (ds, names) {
     drawButton.disabled = true;
     let loopCounter = 0;
-    await sleep(7000);
-    while (teams.length > 0) {
-        let namesCopy = [...names];
-        let potStart = teams.length - potSize
-        let pot = teams.splice(potStart,8);
-        for (let index = 0; index < 8; index++) {
-            let teamRandomIndex = Math.floor(Math.random() * pot.length);
-            let teamChoice = pot[teamRandomIndex];
-            let nameRandomIndex = Math.floor(Math.random() * namesCopy.length);
-            let nameChoice = namesCopy[nameRandomIndex];
-            namesCopy = removeOneOccurrence(namesCopy, nameChoice);
-            pot = pot.filter(p => p !== teamChoice);
-            lists[nameChoice].push(teamChoice);
-            let img = imageCreation(teamChoice)
-            container.appendChild(img)
-            let div = document.createElement("div");
-            div.innerHTML = `${teamChoice}: ${nameChoice}`;
-            container.appendChild(div)
-            let removeTeam = document.getElementById(teamChoice);
-            removeTeam.remove();
-            loopCounter += 1;
-            if (loopCounter % names.length == 0) {
-                namesCopy = [...names];
-            }
-            await sleep(7000);
-            img.remove();
-            div.remove();
+    // await sleep(7000);
+    let namesCopy = [...names];
+    while (ds.length > 0) {
+        let driverRandomIndex = Math.floor(Math.random() * ds.length);
+        let choice = ds[driverRandomIndex];
+        let driverChoice = choice.name;
+        let nameRandomIndex = Math.floor(Math.random() * namesCopy.length);
+        let nameChoice = namesCopy[nameRandomIndex];
+        namesCopy = removeOneOccurrence(namesCopy, nameChoice);
+        ds = ds.filter(d => d !== choice);
+        lists[nameChoice].push(driverChoice);
+        let img = imageCreation(choice)
+        container.appendChild(img)
+        let div = document.createElement("div");
+        div.innerHTML = `${driverChoice}: ${nameChoice}`;
+        container.appendChild(div)
+        let removeDriver = document.getElementById(driverChoice);
+        removeDriver.remove();
+        loopCounter += 1;
+        if (loopCounter % names.length == 0) {
+            namesCopy = [...names];
         }
+        // await sleep(7000);
+        img.remove();
+        div.remove();
     }
 }
 
@@ -151,31 +131,30 @@ function removeOneOccurrence(array, value) {
     }
     return array;
 }
-
+ // loop
 function restructurePage() {
     container.remove();
-    const fourthColumn = document.createElement('div');
-    potContainer.appendChild(fourthColumn)
-    fourthColumn.className = "column"
-    const columnList = potContainer.querySelectorAll('.column')
-    const newHeading = document.createElement('h2');
-    newHeading.className = "h2"
-    fourthColumn.appendChild(newHeading);
-    for (let index = 0; index < columnList.length; index++) {
+    columnList[4].remove();
+    for (let index = 0; index < names.length; index++) {
         const headings = document.getElementsByClassName('h2');
         headings[index].textContent = `${names[index]}`;
         columnList[index].id = names[index]
     }
     potContainer.style.minHeight = '350px'
-    nameAppender(teams);
+    nameAppender(drivers);
     exportButton.disabled = false;
 }
 
-function nameAppender(potTeams) {
-    potTeams.forEach((team) => {
-        let listName = Object.keys(lists).filter(listName => lists[listName].includes(team));
+function nameAppender(potDrivers) {
+    potDrivers.forEach((driver) => {
+        console.log(driver);
+        console.log(lists);
+        let listName = Object.keys(lists).filter(listName => lists[listName].includes(driver.name));
+        console.log(listName);
         const nameColumn = document.getElementById(listName[0]);
-        let container = teamCreation(team)
+        console.log(nameColumn);
+        let container = driverCreation(driver)
+        console.log(container);
         nameColumn.appendChild(container);
     });
 }
@@ -192,18 +171,18 @@ function exportResults() {
     const blob = new Blob([resultText], { type: "text/plain" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "euro_2024_sweepstake_results.txt";
+    a.download = "f1_2025_sweepstake_results.txt";
     a.click();
 }
 
 drawButton.addEventListener('click', async () => {
-    await process([...teams], [...largerList], potNumber); 
+    await process([...drivers], [...names]); 
     restructurePage()
 });
 
 document.addEventListener("DOMContentLoaded", () => {
     exportButton.disabled = true;
-    potCreation(potNumber);
+    potCreation();
     names.forEach((name) => {
     lists[name] = [];
   });
