@@ -129,7 +129,7 @@ h1 {
     justify-content: space-between; /* Optional: space out the columns */
     flex-wrap: wrap; /* Allow wrapping if necessary */
     gap: 80px;
-    min-height: 500px;
+    min-height: 250px;
 }
 
 .column {
@@ -138,8 +138,8 @@ h1 {
     margin: 10px;
     border-radius: 5px;
     flex: 1;
-    min-width: 250px;
-    max-width: 30%;
+    min-width: 300px;
+    /* max-width: 30%; */
     box-sizing: border-box;
 }
 
@@ -169,7 +169,7 @@ h1 {
     /* text-align: right; */
 }
 
-.team-container {
+.driver-container {
   display: flex; /* Use flexbox to arrange children horizontally */
   align-items: center; /* Align children vertically */
 }
