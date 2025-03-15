@@ -33,7 +33,8 @@ const countryCodes = {
     Japan: "JP",
     "New Zealand": "NZ",
     Thailand: "TH",
-    Monaco: "MC"
+    Monaco: "MC",
+    "United Kingdom": "UK"
 };
 
 const flags = {};
@@ -46,33 +47,52 @@ const names = ["Ben", "Bridgette", "Lily", "Robert"];
 const drawButton = document.querySelector(".draw");
 const refreshButton = document.querySelector(".refresh");
 const exportButton = document.querySelector(".export");
-const container = document.querySelector(".container");
+const selectionContainer = document.querySelector(".container");
 const potContainer = document.querySelector(".row");
 const lists = {};
 const columnList = potContainer.querySelectorAll('.column');
-const potNumber = drivers.length / columnList.length;
 
-function potCreation() {
-    let driversCopy = [...drivers]
+drawButton.addEventListener('click', async () => {
+    await drawProcess([...drivers], [...names]); 
+    restructurePage()
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    exportButton.disabled = true;
+    potStructureCreation();
+    names.forEach((name) => {
+    lists[name] = [];
+  });
+});
+
+refreshButton.addEventListener("click", refreshPage);
+
+exportButton.addEventListener("click", () => {
+  exportResults();
+});
+
+function potStructureCreation() {
+    const potNumber = drivers.length / columnList.length;
+    const driversCopy = [...drivers]
     let driverCounter = 1
-    let count = 1;
+    let index = 1;
     driversCopy.forEach((driver) => {
-        let columnIdentifier = document.getElementById(count.toString());
-        let driverContainer = driverCreation(driver);
+        let columnIdentifier = document.getElementById(index.toString());
+        let driverContainer = driverContainerCreation(driver);
         columnIdentifier.appendChild(driverContainer);
         if (driverCounter % potNumber == 0) {
-            count += 1
+            index += 1
         }
         driverCounter += 1
     });
 }
 
-function driverCreation(driver) {
+function driverContainerCreation(driver) {
     const driverContainer = document.createElement("div");
     const element = document.createElement("div");
     driverContainer.className = "driver-container";
     driverContainer.id = driver.name
-    let imageElement = imageCreation(driver);
+    const imageElement = imageCreation(driver);
     element.className = "driver-name"
     element.textContent = driver.name + ", " + driver.team;
     driverContainer.appendChild(imageElement);
@@ -89,36 +109,32 @@ function imageCreation(driver) {
     return img;
 }
 
-function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function process (ds, names) {
+async function drawProcess (driverList, names) {
     drawButton.disabled = true;
     let loopCounter = 0;
-    // await sleep(7000);
+    // await sleep(5000);
     let namesCopy = [...names];
-    while (ds.length > 0) {
-        let driverRandomIndex = Math.floor(Math.random() * ds.length);
-        let choice = ds[driverRandomIndex];
-        let driverChoice = choice.name;
+    while (driverList.length > 0) {
+        let driverRandomIndex = Math.floor(Math.random() * driverList.length);
+        let driverChoice = driverList[driverRandomIndex];
+        let driverName = driverChoice.name;
         let nameRandomIndex = Math.floor(Math.random() * namesCopy.length);
         let nameChoice = namesCopy[nameRandomIndex];
         namesCopy = removeOneOccurrence(namesCopy, nameChoice);
-        ds = ds.filter(d => d !== choice);
-        lists[nameChoice].push(driverChoice);
-        let img = imageCreation(choice)
-        container.appendChild(img)
+        driverList = driverList.filter(d => d !== driverChoice);
+        lists[nameChoice].push(driverName);
+        let img = imageCreation(driverChoice)
+        selectionContainer.appendChild(img)
         let div = document.createElement("div");
-        div.innerHTML = `${driverChoice}: ${nameChoice}`;
-        container.appendChild(div)
-        let removeDriver = document.getElementById(driverChoice);
+        div.innerHTML = `${driverName}: ${nameChoice}`;
+        selectionContainer.appendChild(div)
+        let removeDriver = document.getElementById(driverName);
         removeDriver.remove();
         loopCounter += 1;
         if (loopCounter % names.length == 0) {
             namesCopy = [...names];
         }
-        // await sleep(7000);
+        // await sleep(5000);
         img.remove();
         div.remove();
     }
@@ -131,9 +147,9 @@ function removeOneOccurrence(array, value) {
     }
     return array;
 }
- // loop
+
 function restructurePage() {
-    container.remove();
+    selectionContainer.remove();
     columnList[4].remove();
     for (let index = 0; index < names.length; index++) {
         const headings = document.getElementsByClassName('h2');
@@ -147,20 +163,11 @@ function restructurePage() {
 
 function nameAppender(potDrivers) {
     potDrivers.forEach((driver) => {
-        console.log(driver);
-        console.log(lists);
         let listName = Object.keys(lists).filter(listName => lists[listName].includes(driver.name));
-        console.log(listName);
         const nameColumn = document.getElementById(listName[0]);
-        console.log(nameColumn);
-        let container = driverCreation(driver)
-        console.log(container);
+        let container = driverContainerCreation(driver)
         nameColumn.appendChild(container);
     });
-}
-
-function refreshPage() {
-    window.location.reload();
 }
 
 function exportResults() {
@@ -175,21 +182,10 @@ function exportResults() {
     a.click();
 }
 
-drawButton.addEventListener('click', async () => {
-    await process([...drivers], [...names]); 
-    restructurePage()
-});
+function refreshPage() {
+    window.location.reload();
+}
 
-document.addEventListener("DOMContentLoaded", () => {
-    exportButton.disabled = true;
-    potCreation();
-    names.forEach((name) => {
-    lists[name] = [];
-  });
-});
-
-refreshButton.addEventListener("click", refreshPage);
-
-exportButton.addEventListener("click", () => {
-  exportResults();
-});
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
