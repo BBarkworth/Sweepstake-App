@@ -1,7 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="85.5 0 342 342">
-<rect y="0" fill="#FFFFFF" width="513" height="342"/>
-<rect y="0" fill="#0052B4" width="171" height="342"/>
-<rect x="342" y="0" fill="#D80027" width="171" height="342"/>
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 
+    viewBox="0 0 55.2 38.4" style="enable-background:new 0 0 55.2 38.4" xml:space="preserve">
+    <style type="text/css">
+        .st0{fill:#0055A4;} /* Blue */
+        .st1{fill:#FFFFFF;} /* White */
+        .st2{fill:#EF4135;} /* Red */
+    </style>
+    <g>
+        <!-- Blue section -->
+        <rect class="st0" width="18.4" height="38.4"/>
+        
+        <!-- White section -->
+        <rect class="st1" x="18.4" width="18.4" height="38.4"/>
+        
+        <!-- Red section -->
+        <rect class="st2" x="36.8" width="18.4" height="38.4"/>
+    </g>
 </svg>

@@ -1,7 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="85.5 0 342 342">
-	<rect y="0" fill="#D80027" width="513" height="342"/>
-	<rect y="0" fill="#000" width="513" height="114"/>
-	<rect y="228" fill="#FFDA44" width="513" height="114"/>
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 
+    viewBox="0 0 55.2 38.4" style="enable-background:new 0 0 55.2 38.4" xml:space="preserve">
+    <style type="text/css">
+        .st0{fill:#000000;} /* Black */
+        .st1{fill:#DD0000;} /* Red */
+        .st2{fill:#FFCC00;} /* Gold */
+    </style>
+    <g>
+        <!-- Black section -->
+        <rect class="st0" width="55.2" height="12.8"/>
+        
+        <!-- Red section -->
+        <rect class="st1" y="12.8" width="55.2" height="12.8"/>
+        
+        <!-- Gold section -->
+        <rect class="st2" y="25.6" width="55.2" height="12.8"/>
+    </g>
 </svg>
