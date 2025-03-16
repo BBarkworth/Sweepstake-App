@@ -112,7 +112,7 @@ function imageCreation(driver) {
 async function drawProcess (driverList, names) {
     drawButton.disabled = true;
     let loopCounter = 0;
-    // await sleep(5000);
+    await sleep(5000);
     let namesCopy = [...names];
     while (driverList.length > 0) {
         let driverRandomIndex = Math.floor(Math.random() * driverList.length);
@@ -134,7 +134,7 @@ async function drawProcess (driverList, names) {
         if (loopCounter % names.length == 0) {
             namesCopy = [...names];
         }
-        // await sleep(5000);
+        await sleep(5000);
         img.remove();
         div.remove();
     }
