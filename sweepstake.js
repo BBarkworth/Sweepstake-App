@@ -4,21 +4,23 @@ const drivers = [
     {name: "Charles Leclerc", country: "Monaco", team: "Ferrari"},
     {name: "Lewis Hamilton", country: "United Kingdom", team: "Ferrari"},
     {name: "Max Verstappen", country: "Netherlands", team: "Red Bull"},
-    {name: "Liam Lawson", country: "New Zealand", team: "Red Bull"},
+    {name: "Isack Hadjar", country: "France", team: "Red Bull"},
     {name: "George Russell", country: "United Kingdom", team: "Mercedes"},
-    {name: "Andrea Antonelli", country: "Italy", team: "Mercedes"},
+    {name: "Kimi Antonelli", country: "Italy", team: "Mercedes"},
     {name: "Lance Stroll", country: "Canada", team: "Aston Martin"},
     {name: "Fernando Alonso", country: "Spain", team: "Aston Martin"},
     {name: "Pierre Gasly", country: "France", team: "Alpine"}, 
-    {name: "Jack Doohan", country: "Australia", team: "Alpine"},
+    {name: "Franco Colapinto", country: "Argentina", team: "Alpine"},
     {name: "Esteban Ocon", country: "France", team: "Haas"},
     {name: "Oliver Bearman", country: "United Kingdom", team: "Haas"},
-    {name: "Isack Hadjar", country: "France", team: "Racing Bulls"},
-    {name: "Yuki Tsunoda", country: "Japan", team: "Racing Bulls"},
+    {name: "Arvid Lindblad", country: "United Kingdom", team: "Racing Bulls"},
+    {name: "Liam Lawson", country: "New Zealand", team: "Racing Bulls"},
     {name: "Alex Albon", country: "Thailand", team: "Williams"},
     {name: "Carlos Sainz", country: "Spain", team: "Williams"}, 
-    {name: "Nico Hulkenberg", country: "Germany", team: "Sauber"},
-    {name: "Gabriel Bortoleto", country: "Brazil", team: "Sauber"}
+    {name: "Nico Hulkenberg", country: "Germany", team: "Audi"},
+    {name: "Gabriel Bortoleto", country: "Brazil", team: "Audi"},
+    {name: "Sergio Perez", country: "Mexico", team: "Cadillac"},
+    {name: "Valtteri Bottas", country: "Finland", team: "Cadillac"}
 ];
 
 const countryCodes = {
@@ -30,11 +32,13 @@ const countryCodes = {
     Australia: "AU",
     Canada: "CA",
     Brazil: "BR",
-    Japan: "JP",
     "New Zealand": "NZ",
     Thailand: "TH",
     Monaco: "MC",
-    "United Kingdom": "UK"
+    "United Kingdom": "UK",
+    Mexico: "MX",
+    Argentina: "AR",
+    Finland: "FI"
 };
 
 const flags = {};
@@ -50,7 +54,8 @@ const exportButton = document.querySelector(".export");
 const selectionContainer = document.querySelector(".container");
 const potContainer = document.querySelector(".row");
 const lists = {};
-const columnList = potContainer.querySelectorAll('.column');
+let columnList = potContainer.querySelectorAll('.column');
+const headings = document.querySelector('h2');
 
 drawButton.addEventListener('click', async () => {
     await drawProcess([...drivers], [...names]); 
@@ -61,8 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
     exportButton.disabled = true;
     potStructureCreation();
     names.forEach((name) => {
-    lists[name] = [];
-  });
+        lists[name] = [];
+    });
 });
 
 refreshButton.addEventListener("click", refreshPage);
@@ -72,7 +77,7 @@ exportButton.addEventListener("click", () => {
 });
 
 function potStructureCreation() {
-    const potNumber = drivers.length / columnList.length;
+    const potNumber = Math.ceil(drivers.length / columnList.length);
     const driversCopy = [...drivers]
     let driverCounter = 1
     let index = 1;
@@ -112,7 +117,7 @@ function imageCreation(driver) {
 async function drawProcess (driverList, names) {
     drawButton.disabled = true;
     let loopCounter = 0;
-    await sleep(5000);
+    await sleep(3000);
     let namesCopy = [...names];
     while (driverList.length > 0) {
         let driverRandomIndex = Math.floor(Math.random() * driverList.length);
@@ -134,7 +139,7 @@ async function drawProcess (driverList, names) {
         if (loopCounter % names.length == 0) {
             namesCopy = [...names];
         }
-        await sleep(5000);
+        await sleep(3000);
         img.remove();
         div.remove();
     }
@@ -150,13 +155,19 @@ function removeOneOccurrence(array, value) {
 
 function restructurePage() {
     selectionContainer.remove();
-    columnList[4].remove();
+    const fourthContainer = document.createElement("div");
+    fourthContainer.className = "column";
+    fourthContainer.id = "4";
+    potContainer.appendChild(fourthContainer);
+    columnList = potContainer.querySelectorAll('.column');
+    headings.remove();
     for (let index = 0; index < names.length; index++) {
-        const headings = document.getElementsByClassName('h2');
-        headings[index].textContent = `${names[index]}`;
+        const nameHeading = document.createElement("h2");
+        document.getElementById(index + 1).appendChild(nameHeading);
+        nameHeading.textContent = `${names[index]}`;
         columnList[index].id = names[index]
     }
-    potContainer.style.minHeight = '350px'
+    potContainer.style.minHeight = '500px'
     nameAppender(drivers);
     exportButton.disabled = false;
 }
@@ -178,7 +189,7 @@ function exportResults() {
     const blob = new Blob([resultText], { type: "text/plain" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "f1_2025_sweepstake_results.txt";
+    a.download = "f1_2026_sweepstake_results.txt";
     a.click();
 }
 

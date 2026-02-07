@@ -25,13 +25,6 @@ body {
   opacity: 0.1; /* 30% opacity */
   z-index: -1; 
 }
-/* 
-.sweepstake-image {
-    display: block;
-    margin: 0 auto 20px;
-    max-width: 1000px;
-    height: auto;
-} */
 
 h1 {
     color: rgb(255, 255, 255);
@@ -45,9 +38,6 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 50px;
-   /* border: 5px solid rgb(255, 255, 255); */
-
 }
 
 .container {
@@ -60,6 +50,8 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 5px;
+    margin-top: 10px;
 }
 
 .button-container {
@@ -69,22 +61,7 @@ h1 {
     margin-top: 0px;
 }
 
-/* .button-container button {
-    background-color: #ebf1fd;
-    border: 10px #ebf1fd83;
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    margin: 1% 0 0 0;
-    padding: 4%;
-    margin-bottom: 10px;
-    margin: 40px;
-    min-width: 80px;
-} */
-
-
-.draw {
-    background-color: #FCD60C;
+.button-container button {
     border: 10px #ebf1fd83;
     border-radius: 10px;
     padding: 10px 20px;
@@ -96,30 +73,16 @@ h1 {
     min-height: 40px;
 }
 
+.draw {
+    background-color: #FCD60C;
+}
+
 .refresh {
     background-color: #ebf1fd;
-    border: 10px #ebf1fd83;
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 20px;
-    margin: 1% 0 0 0;
-    padding: 4%;
-    margin: 40px;
-    min-width: 120px;
-    min-height: 40px;
 } 
 
 .export {
     background-color: #ebf1fd;
-    border: 10px #dedfe28c;
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 20px;
-    margin: 1% 0 0 0;
-    padding: 4%;
-    margin: 40px;
-    min-width: 120px;
-    min-height: 40px;
 } 
 
 /*POT CONTAINERS */
@@ -128,31 +91,40 @@ h1 {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 80px;
-    min-height: 250px;
+    max-height: 500px;
 }
 
 .column {
     border: 2px solid #E8002D;
-    padding: 10px;
     margin: 10px;
     border-radius: 5px;
     flex: 1;
     min-width: 300px;
-    /* max-width: 30%; */
+    min-height: 350px;
     box-sizing: border-box;
 }
 
 .column h2 {
     background-color: #E8002D;
     padding: 10px;
-    margin: -10px -10px 10px -10px;
+    margin: 0px;
     color: #ffffff;
     border-radius: 5px 5px 0 0;
     text-align: center;
     font-size: 33px;
 }
 
+.h2 {
+    background-color: #E8002D;
+    padding: 10px;
+    margin: 10px 0px;
+    color: #ffffff;
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    font-size: 33px;
+    height: 10%;
+    width: 100%;
+}
 
 .flag-image {
     margin: 10px;
@@ -161,12 +133,10 @@ h1 {
 }
 
 .team-name {
-    /* display: flex; */
     color: rgb(241, 244, 241);
     margin-left: 8px;
     margin-bottom: 3px;
     font-size: 22px;
-    /* text-align: right; */
 }
 
 .driver-container {
